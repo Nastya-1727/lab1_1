@@ -1,0 +1,143 @@
+﻿strings
+
+<string name="listview1"> </string>
+
+colors
+
+    <color name="фон">#CDEEEF</color>
+    <color name="текст">#F5373730</color>
+    <color name="yellow">#FFEB3B</color>
+    <color name="listview">#CB73ACBA</color>
+    <color name="red">#F44336</color>
+    <color name="blue">#3F51B5</color>
+    <color name="green">#4CAF50</color>
+
+array
+
+   <string-array name="mass1">
+        <item>item1</item>
+        <item>item2</item>
+        <item>item3</item>
+        <item>item4</item>
+    </string-array>
+
+manifest
+
+        <activity android:exported="true" android:name=".Main">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
+
+main_act
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/listview1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:background="@color/listview"
+        android:padding="26dp"
+        android:textAllCaps="false"
+        android:textColor="@color/текст"
+        android:textSize="16sp" />
+
+</LinearLayout>
+
+Main
+
+package com.example.myapplication2;
+
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class Main extends AppCompatActivity {
+    myAdapter adapter;
+    ListView lw1;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_act);
+        lw1=(ListView)findViewById(R.id.listview1);
+        String []mas1 = getResources().getStringArray(R.array.mass1);
+        adapter = new myAdapter(mas1);
+        lw1.setAdapter(adapter);
+    }
+
+}
+
+
+myAdapter
+
+package com.example.myapplication2;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+
+public class myAdapter extends BaseAdapter {
+
+    private String[] names;
+    public  myAdapter(String[] names){
+        this.names = names;
+    }
+
+    @Override
+    public int getCount() {
+        return names.length;
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return names[i];
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        Context context = viewGroup.getContext();
+        if(view == null) {
+            LayoutInflater inflater = (LayoutInflater)
+                    context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.le, viewGroup, false);
+        }
+        TextView textView = (TextView) view; //преобразуем класс объекта – элемента разметки к TextView
+        textView.setText(names[i]);
+        if (i % 2 == 0){
+            view.setBackgroundColor(ContextCompat.getColor(context, R.color.red));
+        }
+        else {
+            view.setBackgroundColor(ContextCompat.getColor(context, R.color.red));
+        }
+        return view;
+    }
+}
+
